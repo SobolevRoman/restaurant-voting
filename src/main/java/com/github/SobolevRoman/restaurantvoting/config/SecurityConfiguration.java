@@ -3,6 +3,7 @@ package com.github.SobolevRoman.restaurantvoting.config;
 import com.github.SobolevRoman.restaurantvoting.model.Role;
 import com.github.SobolevRoman.restaurantvoting.model.User;
 import com.github.SobolevRoman.restaurantvoting.repository.UserRepository;
+import com.github.SobolevRoman.restaurantvoting.web.AuthUser;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
