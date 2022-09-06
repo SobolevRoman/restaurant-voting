@@ -7,3 +7,17 @@ INSERT INTO USER_ROLE (ROLE, USER_ID)
 VALUES ('ROLE_USER', 1),
        ('ROLE_ADMIN', 2),
        ('ROLE_USER', 3);
+
+INSERT INTO RESTAURANT(NAME)
+VALUES ('MAC'),
+       ('SteakClub'),
+       ('Pizza');
+
+INSERT INTO DISH(NAME, PRICE, RESTAURANT_ID)
+VALUES ('Coffee', 99.99, 1),
+       ('Maffin' 55, 1),
+       ('Soup', 180.50, 2),
+       ('Steak', 560, 2),
+       ('Bear', 350.90, 2),
+       ('Tea', 99, 3),
+       ('BigPizza', 660,50, 3);
