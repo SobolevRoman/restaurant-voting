@@ -9,13 +9,15 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "menu_item")
+@Table(name = "menu_item", uniqueConstraints = {@UniqueConstraint(
+        columnNames = {"actual_date", "dish_id"}, name = "menu_item_dish_date_idx"
+)})
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(callSuper = true)
-public class MenuItem extends BaseEntity{
-    @Column(name = "actual_date",nullable = false)
+public class MenuItem extends BaseEntity {
+    @Column(name = "actual_date", nullable = false)
     @NotNull
     private LocalDate actualDate;
 

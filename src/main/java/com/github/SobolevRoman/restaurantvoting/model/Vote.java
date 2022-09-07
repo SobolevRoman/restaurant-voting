@@ -9,7 +9,9 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "vote")
+@Table(name = "vote", uniqueConstraints = {@UniqueConstraint(
+        columnNames = {"actual_date", "user_id"}, name = "vote_date_user_idx"
+)})
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

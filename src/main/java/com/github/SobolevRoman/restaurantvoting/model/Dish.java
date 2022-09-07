@@ -9,12 +9,14 @@ import javax.persistence.*;
 import javax.validation.constraints.Positive;
 
 @Entity
-@Table(name = "dish")
+@Table(name = "dish", uniqueConstraints = {@UniqueConstraint(
+        columnNames = {"name", "restaurant_id"}, name = "dish_rest_idx"
+)})
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(callSuper = true)
-public class Dish extends NamedEntity{
+public class Dish extends NamedEntity {
     @Column(name = "price", nullable = false)
     @Positive
     private double price;
