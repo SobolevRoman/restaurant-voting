@@ -6,6 +6,8 @@ import lombok.*;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "restaurant")
@@ -15,6 +17,8 @@ import javax.persistence.Table;
 @ToString(callSuper = true)
 public class Restaurant extends NamedEntity{
 
+    @NotBlank
+    @Size(min = 1, max = 24)
     @Column(name = "label", unique = true, nullable = false)
     @NoHtml
     private String label;
