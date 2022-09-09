@@ -1,5 +1,6 @@
 package com.github.SobolevRoman.restaurantvoting.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -7,28 +8,33 @@ import org.hibernate.annotations.OnDeleteAction;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
-@Table(name = "menu_item", uniqueConstraints = {@UniqueConstraint(
-        columnNames = {"actual_date", "dish_id"}, name = "menu_item_dish_date_idx"
-)})
+@Table(name = "menu")
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(callSuper = true)
-public class MenuItem extends BaseEntity {
+public class Menu extends BaseEntity {
     @Column(name = "actual_date", nullable = false)
     @NotNull
     private LocalDate actualDate;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "dish_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "restaurant_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private Dish dish;
+    @JsonIgnore
+    @ToString.Exclude
+    private Restaurant restaurant;
 
-    public MenuItem(Integer id, LocalDate actualDate, Dish dish) {
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "menu")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @ToString.Exclude
+    private List<Dish> dishes;
+
+    public Menu(Integer id, LocalDate actualDate) {
         super(id);
         this.actualDate = actualDate;
-        this.dish = dish;
     }
 }

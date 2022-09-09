@@ -4,16 +4,22 @@ VALUES ('user1@gmail.com', 'User1', '{noop}password1', DATEADD('DAY', -10, CURRE
        ('user2@gmail.com', 'User2', '{noop}password2', DATEADD('DAY', -5, CURRENT_DATE));
 
 INSERT INTO USER_ROLE (ROLE, USER_ID)
-VALUES ('ROLE_USER', 1),
-       ('ROLE_ADMIN', 2),
-       ('ROLE_USER', 3);
+VALUES ('USER', 1),
+       ('ADMIN', 2),
+       ('USER', 2),
+       ('USER', 3);
 
 INSERT INTO RESTAURANT(NAME, LABEL)
 VALUES ('MAC', 'M'),
        ('SteakClub', 'SC'),
        ('Pizza', 'PZ');
 
-INSERT INTO DISH(NAME, PRICE, RESTAURANT_ID)
+INSERT INTO MENU(ACTUAL_DATE, RESTAURANT_ID)
+VALUES (CURRENT_DATE , 1),
+       (CURRENT_DATE , 2),
+       (CURRENT_DATE , 3);
+
+INSERT INTO DISH(NAME, PRICE, MENU_ID)
 VALUES ('Coffee', 99.99, 1),
        ('Maffin', 55, 1),
        ('Soup', 180.50, 2),
@@ -21,16 +27,6 @@ VALUES ('Coffee', 99.99, 1),
        ('Bear', 350.90, 2),
        ('Tea', 99, 3),
        ('BigPizza', 660.50, 3);
-
-INSERT INTO MENU_ITEM(ACTUAL_DATE, DISH_ID)
-VALUES (CURRENT_DATE , 1),
-       (CURRENT_DATE , 2),
-       (DATEADD('DAY', -1, CURRENT_DATE), 3),
-       (DATEADD('DAY', -1, CURRENT_DATE), 4),
-       (DATEADD('DAY', -3, CURRENT_DATE), 5),
-       (DATEADD('DAY', -3, CURRENT_DATE), 4),
-       (CURRENT_DATE , 4),
-       (CURRENT_DATE , 6);
 
 INSERT INTO VOTE(ACTUAL_DATE, USER_ID, RESTAURANT_ID)
 VALUES (CURRENT_DATE , 1, 2),
