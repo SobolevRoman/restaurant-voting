@@ -22,18 +22,16 @@ public class DishService {
     private final MenuRepository menuRepository;
 
     @Transactional
-    public void delete(int restaurantId, int menuId, int id){
+    public void delete(int restaurantId, int menuId, int id) {
         log.info("delete {} by menu {}", id, menuId);
-        menuRepository.checkBelong(menuId, restaurantId);
-        dishRepository.checkBelong(id, menuId);
+        checkBelong(restaurantId, menuId, id);
         dishRepository.deleteExisted(id);
     }
 
     @Transactional
     public Optional<Dish> get(int restaurantId, int menuId, int id) {
         log.info("get {} by menu {}", id, menuId);
-        menuRepository.checkBelong(menuId, restaurantId);
-        dishRepository.checkBelong(id, menuId);
+        checkBelong(restaurantId, menuId, id);
         return dishRepository.findById(id);
     }
 
@@ -51,21 +49,23 @@ public class DishService {
         return dishRepository.save(prepareToSave(to, menuId));
     }
 
-    private Dish prepareToSave(DishTo to, int menuId){
-        Dish newDish = new Dish(null, to.getName(), to.getActualDate(), to.getPrice());
+    @Transactional
+    public Dish update(DishTo to, int restaurantId, int menuId, int id) {
+        ValidationUtil.assureIdConsistent(to, id);
+        checkBelong(restaurantId, menuId, id);
+        return prepareToSave(to, menuId);
+    }
+
+    private Dish prepareToSave(DishTo to, int menuId) {
+        Integer id = to.isNew() ? null : to.getId();
+        Dish newDish = new Dish(id, to.getName(), to.getActualDate(), to.getPrice());
         newDish.setMenu(menuRepository.findById(menuId).orElseThrow(
                 () -> new DataConflictException("Not found menu with id=" + menuId)));
         return newDish;
     }
 
-    @Transactional
-    public Dish update(DishTo to, int restaurantId, int menuId, int id) {
-        ValidationUtil.assureIdConsistent(to, id);
+    private void checkBelong(int restaurantId, int menuId, int id) {
         menuRepository.checkBelong(menuId, restaurantId);
         dishRepository.checkBelong(id, menuId);
-        Dish updated = new Dish(to.getId(), to.getName(), to.getActualDate(), to.getPrice());
-        updated.setMenu(menuRepository.findById(menuId).orElseThrow(
-                () -> new DataConflictException("Not found menu with id=" + menuId)));
-        return updated;
     }
 }

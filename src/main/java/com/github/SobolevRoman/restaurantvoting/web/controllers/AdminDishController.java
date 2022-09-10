@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class AdminDishController {
     private DishService service;
 
     @GetMapping
-    public List<Dish> getAll(@PathVariable int restaurantId, @PathVariable int menuId){
+    public List<Dish> getAll(@PathVariable int restaurantId, @PathVariable int menuId) {
         return service.getAll(restaurantId, menuId);
     }
 
@@ -35,12 +36,12 @@ public class AdminDishController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable int restaurantId, @PathVariable int menuId, @PathVariable int id){
+    public void delete(@PathVariable int restaurantId, @PathVariable int menuId, @PathVariable int id) {
         service.delete(restaurantId, menuId, id);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Dish> createWithLocation(@RequestBody DishTo to, @PathVariable int restaurantId, @PathVariable int menuId) {
+    public ResponseEntity<Dish> createWithLocation(@Valid @RequestBody DishTo to, @PathVariable int restaurantId, @PathVariable int menuId) {
         checkNew(to);
         Dish created = service.save(to, restaurantId, menuId);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
@@ -51,7 +52,7 @@ public class AdminDishController {
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@RequestBody DishTo to, @PathVariable int restaurantId, @PathVariable int menuId, @PathVariable int id){
-          service.update(to, restaurantId, menuId, id);
+    public void update(@Valid @RequestBody DishTo to, @PathVariable int restaurantId, @PathVariable int menuId, @PathVariable int id) {
+        service.update(to, restaurantId, menuId, id);
     }
 }
