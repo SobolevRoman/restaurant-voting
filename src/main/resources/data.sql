@@ -14,23 +14,25 @@ VALUES ('MAC', 'M'),
        ('SteakClub', 'SC'),
        ('Pizza', 'PZ');
 
-INSERT INTO MENU(ACTUAL_DATE, RESTAURANT_ID)
-VALUES (CURRENT_DATE , 1),
-       (CURRENT_DATE , 2),
-       (CURRENT_DATE , 3);
+INSERT INTO MENU(DESCRIPTION, ACTUAL_DATE, RESTAURANT_ID)
+VALUES ('MAC breakfast', CURRENT_DATE, 1),
+       ('meat lunch', CURRENT_DATE, 2),
+       ('pizza day', CURRENT_DATE, 3);
 
-INSERT INTO DISH(NAME, PRICE, MENU_ID)
-VALUES ('Coffee', 99.99, 1),
-       ('Maffin', 55, 1),
-       ('Soup', 180.50, 2),
-       ('Steak', 560, 2),
-       ('Bear', 350.90, 2),
-       ('Tea', 99, 3),
-       ('BigPizza', 660.50, 3);
+INSERT INTO DISH(NAME, ACTUAL_DATE, PRICE, MENU_ID)
+VALUES ('Coffee', CURRENT_DATE, 99.99, 1),
+       ('Maffin', CURRENT_DATE, 55, 1),
+       ('Soup', CURRENT_DATE, 180.50, 2),
+       ('Steak', CURRENT_DATE, 560, 2),
+       ('Bear', CURRENT_DATE, 350.90, 2),
+       ('Tea', CURRENT_DATE, 99, 3),
+       ('BigPizza', CURRENT_DATE, 660.50, 3),
+       ('CoffeeOld', DATEADD('DAY', -5, CURRENT_DATE), 88.88, 1),
+       ('MaffinOld', DATEADD('DAY', -5, CURRENT_DATE), 44.4, 1);
 
 INSERT INTO VOTE(ACTUAL_DATE, USER_ID, RESTAURANT_ID)
-VALUES (CURRENT_DATE , 1, 2),
-       (CURRENT_DATE , 3, 1),
+VALUES (CURRENT_DATE, 1, 2),
+       (CURRENT_DATE, 3, 1),
        (DATEADD('DAY', -1, CURRENT_DATE), 3, 3),
        (DATEADD('DAY', -1, CURRENT_DATE), 1, 1),
        (DATEADD('DAY', -3, CURRENT_DATE), 1, 3),

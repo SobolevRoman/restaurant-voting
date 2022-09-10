@@ -1,8 +1,7 @@
-package com.github.SobolevRoman.restaurantvoting.web.controllers;
+package com.github.SobolevRoman.restaurantvoting.web.controllers.menu;
 
 import com.github.SobolevRoman.restaurantvoting.model.Menu;
-import com.github.SobolevRoman.restaurantvoting.repository.MenuRepository;
-import lombok.extern.slf4j.Slf4j;
+import com.github.SobolevRoman.restaurantvoting.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -15,22 +14,19 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = MenuController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
-@Slf4j
 public class MenuController {
     static final String REST_URL = "/api/restaurants/{restaurantId}/menu";
 
     @Autowired
-    protected MenuRepository repository;
+    private MenuService service;
 
     @GetMapping
     public List<Menu> getAll(@PathVariable int restaurantId) {
-        log.info("get all by restaurant {}", restaurantId);
-        return repository.getByRestaurantId(restaurantId);
+        return service.getAll(restaurantId);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Menu> getWithDishes(@PathVariable int restaurantId, @PathVariable int id){
-        log.info("get {} by restaurant {}", id, restaurantId);
-        return ResponseEntity.of(repository.getWithDishes(id));
+    public ResponseEntity<Menu> getWithDishes(@PathVariable int restaurantId, @PathVariable int id) {
+        return ResponseEntity.of(service.getWithDishes(id, restaurantId));
     }
 }

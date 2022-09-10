@@ -1,12 +1,15 @@
 package com.github.SobolevRoman.restaurantvoting.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.github.SobolevRoman.restaurantvoting.util.validation.NoHtml;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -21,6 +24,12 @@ public class Menu extends BaseEntity {
     @NotNull
     private LocalDate actualDate;
 
+    @Column(name = "description", nullable = false)
+    @NotBlank
+    @Size(min = 3, max = 120)
+    @NoHtml
+    private String description;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "restaurant_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -33,8 +42,9 @@ public class Menu extends BaseEntity {
     @ToString.Exclude
     private List<Dish> dishes;
 
-    public Menu(Integer id, LocalDate actualDate) {
+    public Menu(Integer id, LocalDate actualDate, String description) {
         super(id);
         this.actualDate = actualDate;
+        this.description = description;
     }
 }

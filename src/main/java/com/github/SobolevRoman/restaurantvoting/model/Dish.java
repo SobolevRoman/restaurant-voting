@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "dish", uniqueConstraints = {@UniqueConstraint(
@@ -15,6 +17,10 @@ import javax.validation.constraints.Positive;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(callSuper = true)
 public class Dish extends NamedEntity {
+    @Column(name = "actual_date", nullable = false)
+    @NotNull
+    private LocalDate actualDate;
+
     @Column(name = "price", nullable = false)
     @Positive
     private double price;

@@ -21,16 +21,16 @@ public class RestaurantController {
     static final String REST_URL = "/api/restaurants";
 
     @Autowired
-    protected RestaurantRepository repository;
+    private RestaurantRepository repository;
 
     @GetMapping
-    public List<Restaurant> getAll(){
+    public List<Restaurant> getAll() {
         log.info("get all");
         return repository.findAll(Sort.by(Sort.Direction.ASC, "name"));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Restaurant> get(@PathVariable int id){
+    public ResponseEntity<Restaurant> get(@PathVariable int id) {
         log.info("get {}", id);
         return ResponseEntity.of(repository.findById(id));
     }
