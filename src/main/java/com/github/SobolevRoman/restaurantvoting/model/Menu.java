@@ -14,7 +14,9 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Entity
-@Table(name = "menu")
+@Table(name = "menu", uniqueConstraints = {@UniqueConstraint(
+        columnNames = {"actual_date", "description"}, name = "description_on_date_idx"
+)})
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

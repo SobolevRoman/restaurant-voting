@@ -31,4 +31,9 @@ public class Dish extends NamedEntity {
     @ToString.Exclude
     private Menu menu;
 
+    public Dish(Integer id, String name, LocalDate actualDate, double price) {
+        super(id, name);
+        this.actualDate = actualDate;
+        this.price = price;
+    }
 }
