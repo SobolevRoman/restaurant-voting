@@ -1,5 +1,6 @@
 package com.github.SobolevRoman.restaurantvoting.service;
 
+import com.github.SobolevRoman.restaurantvoting.error.DataConflictException;
 import com.github.SobolevRoman.restaurantvoting.model.Menu;
 import com.github.SobolevRoman.restaurantvoting.repository.DishRepository;
 import com.github.SobolevRoman.restaurantvoting.repository.MenuRepository;
@@ -28,7 +29,7 @@ public class MenuService {
 
     @Transactional
     public Optional<Menu> getWithDishes(int id, int restaurantId) {
-        log.info("get {} by restaurant {}", id, restaurantId);
+        log.info("get {} by restaurant {} with dishes", id, restaurantId);
         Menu menu = menuRepository.checkBelong(id, restaurantId);
         menu.setDishes(dishRepository.getByDate(id, menu.getActualDate()));
         return Optional.of(menu);
@@ -49,7 +50,8 @@ public class MenuService {
 
     private Menu prepareToSave(MenuTo to, int restaurantId){
         Menu newMenu = new Menu(null, to.getActualDate(), to.getDescription());
-        newMenu.setRestaurant(restaurantRepository.findById(restaurantId).get());
+        newMenu.setRestaurant(restaurantRepository.findById(restaurantId).orElseThrow(
+                () -> new DataConflictException("Not found restaurant with id=" + restaurantId)));
         return newMenu;
     }
 }

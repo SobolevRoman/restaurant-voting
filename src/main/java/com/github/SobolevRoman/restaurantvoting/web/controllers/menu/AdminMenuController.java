@@ -29,7 +29,7 @@ public class AdminMenuController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Menu> get(@PathVariable int id, @PathVariable int restaurantId) {
+    public ResponseEntity<Menu> get(@PathVariable int restaurantId, @PathVariable int id) {
         return ResponseEntity.of(service.getWithDishes(id, restaurantId));
     }
 
@@ -44,7 +44,7 @@ public class AdminMenuController {
         checkNew(to);
         Menu created = service.save(to, restaurantId);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path(REST_URL + "/{id}")
+                .path("/api/admin/restaurants/" + restaurantId + "/menu" + "/{id}")
                 .buildAndExpand(created.getId()).toUri();
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
