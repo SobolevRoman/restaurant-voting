@@ -6,8 +6,18 @@ import lombok.experimental.UtilityClass;
 import org.springframework.core.NestedExceptionUtils;
 import org.springframework.lang.NonNull;
 
+import java.time.Clock;
+import java.time.LocalTime;
+
 @UtilityClass
 public class ValidationUtil {
+    public static final LocalTime VOTE_TIME_BORDER = LocalTime.of(11, 0);
+
+    public static void checkTime() {
+        if (!LocalTime.now(Clock.systemDefaultZone()).isBefore(VOTE_TIME_BORDER)){
+             throw new IllegalRequestDataException("Too late for create or change vote today! Try tomorrow before " + VOTE_TIME_BORDER);
+        }
+    }
 
     public static void checkNew(HasId bean) {
         if (!bean.isNew()) {
