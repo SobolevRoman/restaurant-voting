@@ -2,8 +2,8 @@ package com.github.SobolevRoman.restaurantvoting.web.controllers.restaurant;
 
 import com.github.SobolevRoman.restaurantvoting.model.Restaurant;
 import com.github.SobolevRoman.restaurantvoting.repository.RestaurantRepository;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -21,11 +21,11 @@ import static com.github.SobolevRoman.restaurantvoting.util.validation.Validatio
 @RestController
 @RequestMapping(value = AdminRestaurantController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
+@AllArgsConstructor
 public class AdminRestaurantController {
     static final String REST_URL = "/api/admin/restaurants";
 
-    @Autowired
-    private RestaurantRepository repository;
+    private final RestaurantRepository repository;
 
     @GetMapping
     public List<Restaurant> getAll() {

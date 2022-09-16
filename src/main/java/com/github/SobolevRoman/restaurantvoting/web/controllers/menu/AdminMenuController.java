@@ -3,7 +3,7 @@ package com.github.SobolevRoman.restaurantvoting.web.controllers.menu;
 import com.github.SobolevRoman.restaurantvoting.model.Menu;
 import com.github.SobolevRoman.restaurantvoting.service.MenuService;
 import com.github.SobolevRoman.restaurantvoting.to.MenuTo;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -18,11 +18,11 @@ import static com.github.SobolevRoman.restaurantvoting.util.validation.Validatio
 
 @RestController
 @RequestMapping(value = AdminMenuController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
+@AllArgsConstructor
 public class AdminMenuController {
     static final String REST_URL = "/api/admin/restaurants/{restaurantId}/menu";
 
-    @Autowired
-    private MenuService service;
+    private final MenuService service;
 
     @GetMapping
     public List<Menu> getAll(@PathVariable int restaurantId) {
