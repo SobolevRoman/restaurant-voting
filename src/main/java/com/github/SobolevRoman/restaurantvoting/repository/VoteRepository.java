@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Transactional(readOnly = true)
-public interface VoteRepository extends BaseRepository<Vote>{
+public interface VoteRepository extends BaseRepository<Vote> {
     @Query("SELECT v FROM Vote v WHERE v.user.id=:userId AND v.id=:id")
     Optional<Vote> get(int userId, int id);
 

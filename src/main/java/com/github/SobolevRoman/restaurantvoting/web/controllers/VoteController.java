@@ -2,6 +2,7 @@ package com.github.SobolevRoman.restaurantvoting.web.controllers;
 
 import com.github.SobolevRoman.restaurantvoting.model.Vote;
 import com.github.SobolevRoman.restaurantvoting.service.VoteService;
+import com.github.SobolevRoman.restaurantvoting.to.VoteTo;
 import com.github.SobolevRoman.restaurantvoting.web.AuthUser;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,17 +24,17 @@ public class VoteController {
     private final VoteService service;
 
     @GetMapping
-    public List<Vote> getAll(@AuthenticationPrincipal AuthUser authUser){
-          return service.getAll(authUser.id());
+    public List<VoteTo> getAll(@AuthenticationPrincipal AuthUser authUser) {
+        return service.getAll(authUser.id());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Vote> get(@AuthenticationPrincipal AuthUser authUser, @PathVariable int id){
+    public ResponseEntity<VoteTo> get(@AuthenticationPrincipal AuthUser authUser, @PathVariable int id) {
         return ResponseEntity.of(service.get(authUser.id(), id));
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Vote> createWithLocation(@AuthenticationPrincipal AuthUser authUser, @RequestParam int restaurantId){
+    @PostMapping
+    public ResponseEntity<Vote> createWithLocation(@AuthenticationPrincipal AuthUser authUser, @RequestParam int restaurantId) {
         Vote created = service.prepareAndSave(authUser.getUser(), restaurantId);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
@@ -43,7 +44,7 @@ public class VoteController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@AuthenticationPrincipal AuthUser authUser, @PathVariable int id){
+    public void update(@AuthenticationPrincipal AuthUser authUser, @PathVariable int id) {
         service.update(authUser.getUser(), id);
     }
 }
