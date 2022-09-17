@@ -6,6 +6,7 @@ import com.github.SobolevRoman.restaurantvoting.model.User;
 import com.github.SobolevRoman.restaurantvoting.model.Vote;
 import com.github.SobolevRoman.restaurantvoting.repository.RestaurantRepository;
 import com.github.SobolevRoman.restaurantvoting.repository.VoteRepository;
+import com.github.SobolevRoman.restaurantvoting.to.Rating;
 import com.github.SobolevRoman.restaurantvoting.to.VoteTo;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -62,5 +63,13 @@ public class VoteService {
                 () -> new DataConflictException("Not found vote for change by current date with id=" + id)
         );
         voteRepository.delete(v);
+    }
+
+    public List<Rating> getRating(LocalDate date) {
+       if (date == null){
+           date = LocalDate.now();
+       }
+       log.info("get ratings by date {}", date);
+       return voteRepository.getRatingByDate(date);
     }
 }
