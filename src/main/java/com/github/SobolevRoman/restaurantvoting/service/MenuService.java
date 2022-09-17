@@ -31,8 +31,6 @@ public class MenuService {
     public Optional<Menu> getWithDishes(int id, int restaurantId) {
         log.info("get {} by restaurant {} with dishes", id, restaurantId);
         menuRepository.checkBelong(id, restaurantId);
-       /* menu.setDishes(dishRepository.getByDateForMenu(id, menu.getActualDate()));
-        return Optional.of(menu);*/
         return menuRepository.getWithDishes(id);
     }
 

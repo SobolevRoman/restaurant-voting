@@ -14,4 +14,7 @@ public interface VoteRepository extends BaseRepository<Vote> {
 
     @Query("SELECT v FROM Vote v WHERE v.user.id=:userId ORDER BY v.actualDate DESC")
     List<Vote> getAll(int userId);
+
+    @Query("SELECT v FROM Vote v WHERE v.user.id=:userId AND v.id=:id AND v.actualDate=CURRENT_DATE")
+    Optional<Vote> getByCurrentDate(int userId, int id);
 }

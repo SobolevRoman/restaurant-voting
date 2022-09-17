@@ -10,8 +10,6 @@ import java.util.Optional;
 
 @Transactional(readOnly = true)
 public interface DishRepository extends BaseRepository<Dish> {
-   /* @Query("SELECT d FROM Dish d WHERE d.menu.id=:menuId AND d.actualDate=:actual")
-    List<Dish> getByDateForMenu(int menuId, LocalDate actual);*/
 
     @Query("SELECT d FROM Dish d WHERE d.menu.id=:menuId")
     List<Dish> getAll(int menuId);

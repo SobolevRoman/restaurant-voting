@@ -29,7 +29,7 @@ public class VoteService {
     public List<VoteTo> getAll(int userId) {
         log.info("get all vote");
         return voteRepository.getAll(userId).stream()
-                .map(vote -> new VoteTo(vote.id(), vote.getActualDate(), vote.getRestaurant().id()))
+                .map(this::createTo)
                 .collect(Collectors.toList());
     }
 
@@ -37,7 +37,11 @@ public class VoteService {
         log.info("get with id = {}", id);
         Vote v = voteRepository.get(userId, id).orElseThrow(
                 () -> new DataConflictException("Not found vote with id=" + id));
-        return Optional.of(new VoteTo(v.getId(), v.getActualDate(), v.getRestaurant().id()));
+        return Optional.of(createTo(v));
+    }
+
+    private VoteTo createTo(Vote v) {
+        return new VoteTo(v.getId(), v.getActualDate(), v.getRestaurant().id());
     }
 
     @Transactional
@@ -54,11 +58,9 @@ public class VoteService {
     public void update(User user, int id) {
         checkTime();
         log.info("User {} update/change his mind for vote with id={}", user, id);
-        Vote v = voteRepository.get(user.id(), id).orElseThrow(
-                () -> new DataConflictException("Not found vote with id=" + id));
-        if (v.getActualDate().compareTo(LocalDate.now()) != 0) {
-            throw new DataConflictException("Change mind for vote may be only for this date");
-        }
+        Vote v = voteRepository.getByCurrentDate(user.id(), id).orElseThrow(
+                () -> new DataConflictException("Not found vote for change by current date with id=" + id)
+        );
         voteRepository.delete(v);
     }
 }
